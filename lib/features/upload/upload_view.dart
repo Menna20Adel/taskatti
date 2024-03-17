@@ -63,7 +63,7 @@ class _UploadViewState extends State<UploadView> {
                   width: 250,
                   title: 'Upload from Camera',
                   onPressed: () {
-                    uploadFromCamera();
+                    uploadImage(true);
                   }),
               const Gap(10),
 
@@ -72,7 +72,7 @@ class _UploadViewState extends State<UploadView> {
                   width: 250,
                   title: 'Upload from Gallery',
                   onPressed: () {
-                    uploadFromGallery();
+                    uploadImage(false);
                   }),
 
               //divider
@@ -99,19 +99,9 @@ class _UploadViewState extends State<UploadView> {
     );
   }
 
-  uploadFromCamera() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        path = pickedImage.path;
-      });
-    }
-  }
-
-  uploadFromGallery() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+  uploadImage(bool isCamera) async {
+    final pickedImage = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
     if (pickedImage != null) {
       setState(() {
         path = pickedImage.path;
