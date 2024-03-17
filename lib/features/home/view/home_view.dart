@@ -7,7 +7,7 @@ import 'package:taskatti/core/utils/colors.dart';
 import 'package:taskatti/core/utils/text_style.dart';
 import 'package:taskatti/core/widgets/custom_btn.dart';
 import 'package:taskatti/features/home/view/add_task_view.dart';
-import 'package:taskatti/features/home/widgets/dateContainer.dart';
+import 'package:taskatti/features/home/widgets/date_container.dart';
 import 'package:taskatti/features/home/widgets/home_header.dart';
 
 class HomeView extends StatefulWidget {
