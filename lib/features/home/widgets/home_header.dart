@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:taskatti/core/functions/routing.dart';
 import 'package:taskatti/core/services/local_storage.dart';
 import 'package:taskatti/core/utils/colors.dart';
 import 'package:taskatti/core/utils/text_style.dart';
+import 'package:taskatti/features/update_profile/view/update_profile_view.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
@@ -41,11 +43,18 @@ class _HomeHeaderState extends State<HomeHeader> {
             )
           ],
         ),
-        CircleAvatar(
-          radius: 28,
-          backgroundImage: (path != null)
-              ? FileImage(File(path!)) as ImageProvider
-              : const AssetImage('Assets/user.png'),
+        InkWell(
+          onTap: () {
+            setState(() {
+              navigateTo(context, const UpdateProfile());
+            });
+          },
+          child: CircleAvatar(
+            radius: 28,
+            backgroundImage: (path != null)
+                ? FileImage(File(path!)) as ImageProvider
+                : const AssetImage('Assets/user.png'),
+          ),
         ),
       ],
     );

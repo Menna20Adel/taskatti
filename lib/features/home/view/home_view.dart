@@ -1,14 +1,16 @@
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:lottie/lottie.dart';
-import 'package:taskatti/core/constants/assets_images.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:taskatti/core/functions/routing.dart';
 import 'package:taskatti/core/utils/colors.dart';
 import 'package:taskatti/core/utils/text_style.dart';
 import 'package:taskatti/core/widgets/custom_btn.dart';
-import 'package:taskatti/features/home/view/add_task_view.dart';
-import 'package:taskatti/features/home/widgets/date_container.dart';
+import 'package:taskatti/features/add_task/data/task_model.dart';
+import 'package:taskatti/features/add_task/presentation/view/add_task_view.dart';
 import 'package:taskatti/features/home/widgets/home_header.dart';
+import 'package:taskatti/features/add_task/widgets/task_container.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -18,6 +20,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  String _selectedValue = DateFormat('dd/MM/yyyy').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,16 +33,25 @@ class _HomeViewState extends State<HomeView> {
               const HomeHeader(),
               const Gap(15),
 
-              //add task
+              //today date and add task btn
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'March 15, 2024\nToday',
-                    style: titleStyle(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        DateFormat.yMMMMd().format(DateTime.now()),
+                        style: titleStyle(),
+                      ),
+                      Text(
+                        'Today',
+                        style: titleStyle(),
+                      ),
+                    ],
                   ),
                   CustomButton(
-                      width: 140,
+                      width: 145,
                       title: '+ Add Task',
                       onPressed: () {
                         navigateTo(context, const AddTaskView());
@@ -48,41 +60,46 @@ class _HomeViewState extends State<HomeView> {
               ),
               const Gap(15),
 
-              //date
-              Row(
-                children: [
-                  Date(
-                    color: AppColors.blue,
-                    num: '15',
-                    day: 'Fri',
-                    fontColor: AppColors.white,
-                  ),
-                  const Gap(5),
-                  const Date(num: '16', day: 'Sat'),
-                  const Gap(5),
-                  const Date(num: '17', day: 'Sun'),
-                  const Gap(5),
-                  const Date(num: '18', day: 'Mon'),
-                ],
+              //date timeline
+              DatePicker(
+                DateTime.now(),
+                width: 90,
+                height: 120,
+                initialSelectedDate: DateTime.now(),
+                monthTextStyle: smallStyle(color: AppColors.black),
+                dayTextStyle: smallStyle(color: AppColors.black),
+                dateTextStyle: titleStyle(fontSize: 26),
+                selectionColor: AppColors.blue,
+                selectedTextColor: Colors.white,
+                onDateChange: (date) {
+                  setState(() {
+                    _selectedValue =
+                        DateFormat('dd/MM/yyyy').format(DateTime.now());
+                  });
+                },
               ),
+              const Gap(15),
 
-              //lottie
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Lottie.asset(AssetImages.emptyLottie),
-                    Text(
-                      'You don\'t have any tasks yet!',
-                      style: smallStyle(color: AppColors.black, fontSize: 14.5),
-                    ),
-                    Text(
-                      'Add new tasks to make your days productive.',
-                      style: smallStyle(color: AppColors.black, fontSize: 14.5),
-                    ),
-                  ],
-                ),
-              ),
+              //list of tasks
+              Expanded(
+                  child: ValueListenableBuilder(
+                valueListenable: Hive.box<TaskModel>('task').listenable(),
+                builder: (context, value, child) {
+                  List<TaskModel> tasks = [];
+                  for (var element in value.values) {
+                    if (element.date == _selectedValue) {
+                      tasks.add(element);
+                    }
+                  }
+                  return ListView.builder(
+                      itemCount: value.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TaskContainer(
+                          model: tasks[index],
+                        );
+                      });
+                },
+              ))
             ],
           ),
         ),

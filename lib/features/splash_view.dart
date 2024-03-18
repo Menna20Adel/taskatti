@@ -3,7 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taskatti/core/constants/assets_images.dart';
 import 'package:taskatti/core/functions/routing.dart';
+import 'package:taskatti/core/services/local_storage.dart';
 import 'package:taskatti/core/utils/text_style.dart';
+import 'package:taskatti/features/home/view/home_view.dart';
 import 'package:taskatti/features/upload/upload_view.dart';
 
 class SplashView extends StatefulWidget {
@@ -17,8 +19,10 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
+    bool isUpload = AppLocalStorage.getCachedData('isUpload') ?? false;
     Future.delayed(const Duration(seconds: 5), () {
-      navigateWithReplacment(context, const UploadView());
+      navigateWithReplacment(
+          context, (isUpload) ? const HomeView() : const UploadView());
     });
   }
 

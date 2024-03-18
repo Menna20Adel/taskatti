@@ -3,5 +3,5 @@ import 'package:taskatti/core/utils/colors.dart';
 
 showErrorDialog(context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(backgroundColor: AppColors.pink, content: Text(text)));
+      SnackBar(backgroundColor: AppColors.red, content: Text(text)));
 }
