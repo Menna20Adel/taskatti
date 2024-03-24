@@ -9,8 +9,9 @@ import 'package:taskatti/core/utils/text_style.dart';
 import 'package:taskatti/core/widgets/custom_btn.dart';
 import 'package:taskatti/features/add_task/data/task_model.dart';
 import 'package:taskatti/features/add_task/presentation/view/add_task_view.dart';
+import 'package:taskatti/features/home/widgets/empty_lottie.dart';
 import 'package:taskatti/features/home/widgets/home_header.dart';
-import 'package:taskatti/features/add_task/widgets/task_container.dart';
+import 'package:taskatti/features/home/widgets/task_container.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -63,8 +64,8 @@ class _HomeViewState extends State<HomeView> {
               //date timeline
               DatePicker(
                 DateTime.now(),
-                width: 90,
                 height: 120,
+                width: 90,
                 initialSelectedDate: DateTime.now(),
                 monthTextStyle: smallStyle(color: AppColors.black),
                 dayTextStyle: smallStyle(color: AppColors.black),
@@ -73,8 +74,7 @@ class _HomeViewState extends State<HomeView> {
                 selectedTextColor: Colors.white,
                 onDateChange: (date) {
                   setState(() {
-                    _selectedValue =
-                        DateFormat('dd/MM/yyyy').format(DateTime.now());
+                    _selectedValue = DateFormat('dd/MM/yyyy').format(date);
                   });
                 },
               ),
@@ -82,22 +82,81 @@ class _HomeViewState extends State<HomeView> {
 
               //list of tasks
               Expanded(
-                  child: ValueListenableBuilder(
+                  child: ValueListenableBuilder<Box<TaskModel>>(
                 valueListenable: Hive.box<TaskModel>('task').listenable(),
-                builder: (context, value, child) {
+                builder: (context, Box<TaskModel> box, child) {
                   List<TaskModel> tasks = [];
-                  for (var element in value.values) {
+                  for (var element in box.values) {
                     if (element.date == _selectedValue) {
                       tasks.add(element);
                     }
                   }
-                  return ListView.builder(
-                      itemCount: value.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return TaskContainer(
+                  if (tasks.isEmpty) {
+                    return const Center(child: EmptyLottie());
+                  }
+
+                  return ListView.separated(
+                    itemCount: tasks.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Dismissible(
+                        key: UniqueKey(),
+                        background: Container(
+                          padding: const EdgeInsets.all(10),
+                          color: AppColors.green,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.check,
+                                color: AppColors.white,
+                              ),
+                              const Gap(5),
+                              Text(
+                                'Complete',
+                                style: smallStyle(color: AppColors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                        secondaryBackground: Container(
+                          padding: const EdgeInsets.all(10),
+                          color: AppColors.red,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                                color: AppColors.white,
+                              ),
+                              const Gap(5),
+                              Text(
+                                'Delete',
+                                style: smallStyle(color: AppColors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                        onDismissed: (direction) {
+                          if (direction == DismissDirection.startToEnd) {
+                            box.put(
+                                tasks[index].id,
+                                TaskModel(
+                                    id: tasks[index].id,
+                                    title: tasks[index].title,
+                                    note: tasks[index].note,
+                                    date: tasks[index].date,
+                                    startTime: tasks[index].startTime,
+                                    endTime: tasks[index].endTime,
+                                    color: 3,
+                                    isComplete: true));
+                          }
+                        },
+                        child: TaskContainer(
                           model: tasks[index],
-                        );
-                      });
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => const Gap(10),
+                  );
                 },
               ))
             ],

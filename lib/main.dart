@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:taskatti/core/services/local_storage.dart';
-import 'package:taskatti/core/utils/colors.dart';
+import 'package:taskatti/core/themes/themes.dart';
 import 'package:taskatti/features/add_task/data/task_model.dart';
 import 'package:taskatti/features/splash_view.dart';
 
@@ -21,38 +20,22 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.light,
+    return ValueListenableBuilder(
+        valueListenable: Hive.box('user').listenable(),
+        builder: (context, box, child) {
+          bool darkMode = box.get('darkMode', defaultValue: false);
+          return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
 
-        //light theme
-        theme: ThemeData(
-            fontFamily: GoogleFonts.poppins().fontFamily,
-            scaffoldBackgroundColor: AppColors.white,
-            appBarTheme: AppBarTheme(
-                backgroundColor: AppColors.white,
-                foregroundColor: AppColors.blue),
-            inputDecorationTheme: InputDecorationTheme(
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: AppColors.blue)),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: AppColors.blue)),
-                errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: AppColors.red)),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: AppColors.red)))),
+              //light theme
+              theme: AppThemes.appLightTheme,
 
-        //dark theme
-        darkTheme: ThemeData(
-          scaffoldBackgroundColor: AppColors.darkBackground,
-          appBarTheme: AppBarTheme(backgroundColor: AppColors.blue),
-        ),
+              //dark theme
+              darkTheme: AppThemes.appDarkTheme,
 
-        //home
-        home: const SplashView());
+              //home
+              home: const SplashView());
+        });
   }
 }

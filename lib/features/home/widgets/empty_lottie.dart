@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taskatti/core/constants/assets_images.dart';
 import 'package:taskatti/core/utils/colors.dart';
@@ -14,21 +15,15 @@ class EmptyLottie extends StatefulWidget {
 class _EmptyLottieState extends State<EmptyLottie> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Lottie.asset(AssetImages.emptyLottie),
-          Text(
-            'You don\'t have any tasks yet!',
-            style: smallStyle(color: AppColors.black, fontSize: 14.5),
-          ),
-          Text(
-            'Add new tasks to make your days productive.',
-            style: smallStyle(color: AppColors.black, fontSize: 14.5),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Lottie.asset(AssetImages.emptyLottie),
+        const Gap(10),
+        Text(
+          'You don\'t have any tasks yoday!',
+          style: smallStyle(color: AppColors.black),
+        ),
+      ],
     );
   }
 }

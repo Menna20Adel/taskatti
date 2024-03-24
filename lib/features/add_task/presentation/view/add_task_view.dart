@@ -160,7 +160,7 @@ class _MyWidgetState extends State<AddTaskView> {
                                           backgroundColor: index == 0
                                               ? AppColors.blue
                                               : index == 1
-                                                  ? AppColors.red
+                                                  ? AppColors.pinkishRed
                                                   : AppColors.orange,
                                           child: index == color
                                               ? Icon(
