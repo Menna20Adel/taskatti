@@ -12,7 +12,8 @@ class CustomTextField extends StatelessWidget {
       this.maxLines,
       this.readOnly,
       this.onTap,
-      this.controller});
+      this.controller,
+      this.hintColor});
   final String hintText;
   final String title;
   final Icon? suffix;
@@ -20,7 +21,7 @@ class CustomTextField extends StatelessWidget {
   final bool? readOnly;
   final Function()? onTap;
   final TextEditingController? controller;
-
+  final Color? hintColor;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,7 +29,7 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           title,
-          style: titleStyle(),
+          style: titleStyle(context),
         ),
         TextFormField(
           controller: controller,
@@ -36,12 +37,10 @@ class CustomTextField extends StatelessWidget {
           onTap: onTap,
           maxLines: maxLines,
           decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
             hintText: hintText,
+            hintStyle: smallStyle(context, color: hintColor ?? AppColors.grey),
             suffixIcon: suffix,
-            suffixIconColor: AppColors.grey,
+            suffixIconColor: AppColors.blue,
           ),
         ),
         const Gap(15),

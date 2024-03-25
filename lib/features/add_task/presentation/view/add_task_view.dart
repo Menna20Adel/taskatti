@@ -29,6 +29,7 @@ class _MyWidgetState extends State<AddTaskView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -40,7 +41,7 @@ class _MyWidgetState extends State<AddTaskView> {
           centerTitle: true,
           title: Text(
             'Add Task',
-            style: titleStyle(color: AppColors.blue),
+            style: titleStyle(context, color: AppColors.blue),
           ),
         ),
         body: SingleChildScrollView(
@@ -69,6 +70,7 @@ class _MyWidgetState extends State<AddTaskView> {
                   readOnly: true,
                   title: 'Date',
                   hintText: date,
+                  hintColor: theme.onSurface,
                   suffix: const Icon(Icons.date_range),
                   onTap: () {
                     showDatePicker(
@@ -96,6 +98,7 @@ class _MyWidgetState extends State<AddTaskView> {
                       readOnly: true,
                       title: 'Start Time',
                       hintText: startTime,
+                      hintColor: theme.onSurface,
                       suffix: const Icon(Icons.watch_later_outlined),
                       onTap: () {
                         showTimePicker(
@@ -117,6 +120,7 @@ class _MyWidgetState extends State<AddTaskView> {
                       readOnly: true,
                       title: 'End Time',
                       hintText: endTime,
+                      hintColor: theme.onSurface,
                       suffix: const Icon(Icons.watch_later_outlined),
                       onTap: () {
                         showTimePicker(
@@ -142,7 +146,7 @@ class _MyWidgetState extends State<AddTaskView> {
                       children: [
                         Text(
                           'Color',
-                          style: titleStyle(),
+                          style: titleStyle(context),
                         ),
                         //colors
                         Row(

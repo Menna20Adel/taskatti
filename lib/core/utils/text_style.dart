@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:taskatti/core/utils/colors.dart';
 
-TextStyle titleStyle({double? fontSize, Color? color, FontWeight? fontWeight}) {
+TextStyle titleStyle(contex,
+    {double? fontSize, Color? color, FontWeight? fontWeight}) {
   return TextStyle(
     fontSize: fontSize ?? 20,
     fontWeight: fontWeight ?? FontWeight.bold,
-    color: color ?? AppColors.black,
+    color: color ?? Theme.of(contex).colorScheme.onSurface,
   );
 }
 
-TextStyle bodyStyle({double? fontSize, Color? color, FontWeight? fontWeight}) {
+TextStyle bodyStyle(contex,
+    {double? fontSize, Color? color, FontWeight? fontWeight}) {
   return TextStyle(
     fontSize: fontSize ?? 18,
     fontWeight: fontWeight ?? FontWeight.normal,
-    color: color ?? AppColors.black,
+    color: color ?? Theme.of(contex).colorScheme.onSurface,
   );
 }
 
-TextStyle smallStyle({double? fontSize, Color? color, FontWeight? fontWeight}) {
+TextStyle smallStyle(context,
+    {double? fontSize, Color? color, FontWeight? fontWeight}) {
   return TextStyle(
     fontSize: fontSize ?? 16,
     fontWeight: fontWeight ?? FontWeight.normal,
-    color: color ?? AppColors.grey,
+    color: color ?? Theme.of(context).colorScheme.onSurface,
   );
 }

@@ -35,11 +35,11 @@ class _HomeHeaderState extends State<HomeHeader> {
           children: [
             Text(
               'Hello, $name',
-              style: titleStyle(color: AppColors.blue),
+              style: titleStyle(context, color: AppColors.blue),
             ),
             Text(
               'Have A Nice Day.',
-              style: bodyStyle(),
+              style: bodyStyle(context),
             )
           ],
         ),

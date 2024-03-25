@@ -30,7 +30,7 @@ class TaskContainer extends StatelessWidget {
               children: [
                 Text(
                   model.title,
-                  style: bodyStyle(color: AppColors.white),
+                  style: bodyStyle(context, color: AppColors.white),
                 ),
                 const Gap(8),
                 Row(
@@ -43,7 +43,8 @@ class TaskContainer extends StatelessWidget {
                     const Gap(5),
                     Text(
                       '${model.startTime} : ${model.endTime}',
-                      style: smallStyle(color: AppColors.white, fontSize: 14),
+                      style: smallStyle(context,
+                          fontSize: 14, color: AppColors.white),
                     ),
                   ],
                 ),
@@ -52,7 +53,7 @@ class TaskContainer extends StatelessWidget {
                   model.note,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: smallStyle(color: AppColors.white),
+                  style: smallStyle(context, color: AppColors.white),
                 )
               ],
             ),
@@ -70,7 +71,7 @@ class TaskContainer extends StatelessWidget {
               quarterTurns: 3,
               child: Text(
                 model.isComplete ? 'COMPLETED' : 'TODO',
-                style: smallStyle(color: AppColors.white),
+                style: smallStyle(context, color: AppColors.white),
               ))
         ],
       ),

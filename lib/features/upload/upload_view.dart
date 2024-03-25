@@ -40,7 +40,8 @@ class _UploadViewState extends State<UploadView> {
                   navigateTo(context, const HomeView());
                 }
               },
-              child: Text('Done', style: titleStyle(color: AppColors.blue)))
+              child: Text('Done',
+                  style: titleStyle(context, color: AppColors.blue)))
         ],
       ),
       body: Center(

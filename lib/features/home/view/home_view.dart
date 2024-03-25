@@ -43,11 +43,11 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       Text(
                         DateFormat.yMMMMd().format(DateTime.now()),
-                        style: titleStyle(),
+                        style: titleStyle(context),
                       ),
                       Text(
                         'Today',
-                        style: titleStyle(),
+                        style: titleStyle(context),
                       ),
                     ],
                   ),
@@ -67,9 +67,9 @@ class _HomeViewState extends State<HomeView> {
                 height: 120,
                 width: 90,
                 initialSelectedDate: DateTime.now(),
-                monthTextStyle: smallStyle(color: AppColors.black),
-                dayTextStyle: smallStyle(color: AppColors.black),
-                dateTextStyle: titleStyle(fontSize: 26),
+                monthTextStyle: smallStyle(context),
+                dayTextStyle: smallStyle(context),
+                dateTextStyle: titleStyle(context, fontSize: 26),
                 selectionColor: AppColors.blue,
                 selectedTextColor: Colors.white,
                 onDateChange: (date) {
@@ -112,7 +112,8 @@ class _HomeViewState extends State<HomeView> {
                               const Gap(5),
                               Text(
                                 'Complete',
-                                style: smallStyle(color: AppColors.white),
+                                style:
+                                    smallStyle(context, color: AppColors.white),
                               )
                             ],
                           ),
@@ -130,7 +131,8 @@ class _HomeViewState extends State<HomeView> {
                               const Gap(5),
                               Text(
                                 'Delete',
-                                style: smallStyle(color: AppColors.white),
+                                style:
+                                    smallStyle(context, color: AppColors.white),
                               )
                             ],
                           ),

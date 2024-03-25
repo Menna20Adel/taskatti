@@ -17,7 +17,9 @@ class UpdateProfile extends StatefulWidget {
 class _UpdateProfileState extends State<UpdateProfile> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     final box = Hive.box('user');
+    var darkMode = box.get('darkMode');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -28,10 +30,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
         actions: [
           IconButton(
               onPressed: () {
-                var darkMode = box.get('darkMode', defaultValue: false);
                 box.put('darkMode', !darkMode);
               },
-              icon: const Icon(Icons.sunny))
+              icon: Icon(darkMode ? Icons.sunny : Icons.dark_mode_rounded))
         ],
       ),
       body: Center(
@@ -62,7 +63,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.vertical(
                                           top: Radius.circular(30))),
-                                  backgroundColor: AppColors.white,
+                                  backgroundColor: theme.background,
                                   context: context,
                                   builder: (Builder) {
                                     return SizedBox(
@@ -91,7 +92,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             child: CircleAvatar(
                               radius: 20,
                               backgroundColor: AppColors.blue,
-                              foregroundColor: AppColors.white,
+                              foregroundColor: theme.background,
                               child: const Icon(Icons.camera_alt_rounded),
                             ),
                           ))
@@ -108,7 +109,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                     children: [
                       Text(
                         name,
-                        style: titleStyle(color: AppColors.blue),
+                        style: titleStyle(context, color: AppColors.blue),
                       ),
                       const Spacer(),
                       IconButton(

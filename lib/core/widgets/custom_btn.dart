@@ -26,7 +26,7 @@ class CustomButton extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             title,
-            style: smallStyle(color: AppColors.white),
+            style: smallStyle(context, color: AppColors.white),
           )),
     );
   }
